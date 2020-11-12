@@ -1,54 +1,41 @@
 package com.yz.console;
 
-import com.yz.consoleInterFace.ShellInter;
 import com.yz.coreFactroy.CoreFactroy;
-import com.yz.shell.GroovyShellInter;
-import com.yz.shell.JythonShellInter;
 import javafx.application.Platform;
 import javafx.scene.control.IndexRange;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.fxmisc.richtext.Caret;
-import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.InlineCssTextArea;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConsoleTextAera extends CodeArea {
+/**
+ * 文本打开的界面
+ */
+public class ViewFileValueTextAera extends InlineCssTextArea {
+
     public final ConsolePrinter pStream = new ConsolePrinter(); // 数据流
     private List<String> commandList = new ArrayList<>(); // 固定命令
-    private ShellInter shellInter; // 解释器
     private String command; // 命令
     private int KEY_PRESSENDNum; // 监控按键回滚
     private int cliTextNum; // 命令行回滚数（默认20）
-    private CircularList<String> cmdList = new CircularList<>(); // 记录命令行
-    private LinkedList<String> newCliList = new LinkedList<>(); // 暂存命令
-    private List<String> fileCommandCileList = new ArrayList<>(); // 文件操作命令
     private boolean isConsoleListenter = false; // 是否开启监听流
-    private String ParserName; // 解析器名称
     private boolean isSaveFile; // 是否开启存储命令
     private boolean isConsoleOutWindowns; // 是否开启控制台打印
     private int startEditableLine = 0; // 文本框可编辑区域 起始行数
-    public String prefix = " >\0\0"; // 段落起始符
-    public String lineSeparator = "...\0"; // 段落分隔符
-    boolean isPrefixFlag; // 是否显示段落起始符
+    public String prefix = ""; // 段落起始符
     CoreFactroy coreFactroy;
 
-    public ConsoleTextAera() {
-        this("");
-    }
-
-    public ConsoleTextAera(String text) {
+    public ViewFileValueTextAera(String text, CoreFactroy coreFactroy) {
         super(text);
-        println(prefix);
-        //        println(this.getText() + "is ready")
+        init(coreFactroy);
     }
 
     public void clean() {
@@ -67,7 +54,6 @@ public class ConsoleTextAera extends CodeArea {
      */
     public void serverInit() {
         saveInterinit();
-        shellInit();
     }
 
     /**
@@ -116,20 +102,17 @@ public class ConsoleTextAera extends CodeArea {
                     else if (event.getCode() == KeyCode.ENTER) {
                         doENTER(event);
                     }
-                    // Ctrl+a组合键屏蔽
-                    else if (event.isControlDown() && event.getCode() == KeyCode.A) {
-                        event.consume();
-                    }
-                    // Ctrl+z组合键屏蔽
-                    else if (event.isControlDown() && event.getCode() == KeyCode.Z) {
-                        event.consume();
+                    // Ctrl+s 保存
+                    else if (event.isControlDown() && event.getCode() == KeyCode.S) {
+                        // 保存文件
+                        println("Ctrl+s待开发");
                     }
 
                     // Alt+up组合键
                     else if (event.isAltDown() && event.getCode() == KeyCode.UP) {
-                        doCommandRecordEvent("up");
+                        //            doCommandRecordEvent("up");
                     } else if (event.isAltDown() && event.getCode() == KeyCode.DOWN) {
-                        doCommandRecordEvent("down");
+                        //            doCommandRecordEvent("down");
                     } else if (event.getCode() == KeyCode.F5) {
                         moveTo(getLength());
                     }
@@ -152,60 +135,12 @@ public class ConsoleTextAera extends CodeArea {
         if (currentLineText.equals(prefix)) {
             println("");
         }
-        // 多行cmd直接执行
-        else if ((!commandText.endsWith(":"))
-                & (!thisACommand().contains(lineSeparator))
-                & (consoleInputCommandList(thisACommand()).length > 1)) {
-            String[] CommandList = consoleInputCommandList(thisACommand());
-            for (String thisListCommand : CommandList) {
-                thisListCommand = thisListCommand.replace(prefix, "");
-                thisListCommand = thisListCommand.replace(" ", "");
-                thisListCommand = thisListCommand.replace("\t", "");
-                command = thisListCommand;
-                doCommand(thisListCommand);
-                ListListener(commandText);
-            }
-            println("");
-        }
         // 如果当前行文本以prefix作为开始
         else if (currentLineText.startsWith(prefix)) {
             // 当前文本不以“：”作为结束
             // 普通单行cmd输入事件
             if (!currentLineText.endsWith(":") & !commandText.endsWith("{")) {
                 println("");
-                doCommand(commandText);
-                ListListener(commandText);
-            }
-            // 多行cmd首行输入事件，后续行缩进一个制表符
-            else {
-                newLineWithIndented(1);
-            }
-        } else if (currentLineText.startsWith(lineSeparator)) {
-            if (!commandText.endsWith(":") & !commandText.endsWith("{")) {
-                // 多行cmd结束事件，后续不缩进
-                if (getParagraph(getCurrentParagraph())
-                        .getText()
-                        .replace(lineSeparator, "")
-                        .trim()
-                        .isEmpty()) {
-                    println("");
-                    doCommand(commandText);
-                    ListListener(commandText);
-                }
-                // 多行cmd内部文本行，后续行缩进与当前行保持一致
-                else {
-                    newLineWithIndented(
-                            numOfStartWithCharSequence(currentLineText.substring(lineSeparator.length()), "\t"));
-                }
-            }
-            /**
-             * 多行cmd内部嵌套多行cmd，后续行缩进在当前行缩进的基础上+1 通常用于函数中嵌套循环或判断，一斤循环内部嵌套循环或判断， 例： def func(*1): for i in 1:
-             * print(i)
-             */
-            else {
-                newLineWithIndented(
-                        numOfStartWithCharSequence(currentLineText.substring(lineSeparator.length()), "\t")
-                                + 1);
             }
         }
         event.consume();
@@ -227,50 +162,6 @@ public class ConsoleTextAera extends CodeArea {
         else if (text.startsWith(prefix) && getCaretColumn() == prefix.length()) {
             event.consume();
         }
-        // 当前行以lineSeparator对象 作为起始，且光标在lineSeparator对象结尾处
-        else if (text.startsWith(lineSeparator) && getCaretColumn() == lineSeparator.length()) {
-            if (isEditable()) {
-                deleteText(
-                        getCurrentParagraph() - 1,
-                        getParagraphLength(getCurrentParagraph() - 1),
-                        getCurrentParagraph(),
-                        getCaretColumn());
-            }
-            event.consume();
-        }
-    }
-
-    /**
-     * 命令回滚
-     *
-     * @param upOrDown
-     */
-    public void doCommandRecordEvent(String upOrDown) {
-        if (upOrDown.equals("up")) {
-            cmdList.doIndexUp();
-        } else if (upOrDown.equals("down")) {
-            cmdList.doIndexDown();
-        }
-        String command;
-        if ((command = cmdList.get()) == null) {
-            return;
-        }
-        deleteText(
-                startEditableLine,
-                0,
-                getParagraphs().size() - 1,
-                getParagraphLength(getParagraphs().size() - 1));
-        String[] temp = command.split("\n");
-        for (int i = 0; i < temp.length; i++) {
-            if (i == 0) {
-                appendText(prefix);
-                appendText(temp[i]);
-            } else {
-                appendText("\n");
-                appendText(lineSeparator);
-                appendText(temp[i]);
-            }
-        }
     }
 
     /**
@@ -283,7 +174,6 @@ public class ConsoleTextAera extends CodeArea {
     }
 
     public void saveInterinit() {
-        ParserName = "python";
         isSaveFile = false;
         isConsoleOutWindowns = false;
         registerKeyboardEventFilter();
@@ -293,71 +183,13 @@ public class ConsoleTextAera extends CodeArea {
     }
 
     /**
-     * 初始化解析器
-     */
-    public void shellInit() {
-        if (ParserName.equals("python")) {
-            JythonShellInter jythonsheller = new JythonShellInter(pStream, ParserName);
-            setShellInter(jythonsheller);
-        } else if (ParserName.equals("groovy")) {
-            GroovyShellInter groovyShellInter = new GroovyShellInter(pStream, ParserName);
-            setShellInter(groovyShellInter);
-        }
-    }
-
-    /**
      * 获取cmd命令字符串，剔除内部 的prefix和lineSeparator，同时适用于单行与多行cmd命令
      *
      * @return
      */
     public String getCommand() {
         String text = getText();
-        return text.substring(text.lastIndexOf(prefix) + prefix.length()).replace(lineSeparator, "");
-    }
-
-    /**
-     * 执行命令
-     *
-     * @param command
-     * @return
-     */
-    public Boolean doCommand(String command) {
-        boolean ret = true;
-        if (ParserName == null) {
-            System.out.println("parserName is null");
-        } else if (shellInter != null) {
-            if (ret = shellInter.execute(command)) {
-                scriptPrinterrecord(command);
-            }
-
-        } else {
-            System.out.println("shellInter is null");
-        }
-        cmdList.add(command);
-        cmdList.resrtIndex();
-        return ret;
-    }
-
-    /**
-     * 执行成功记录脚本
-     *
-     * @param cmd
-     */
-    public void scriptPrinterrecord(String cmd) {
-        fileCommandCileList.add(cmd);
-    }
-
-    /**
-     * 多行缩进一个制表符
-     *
-     * @param indentLevel
-     */
-    public void newLineWithIndented(int indentLevel) {
-        appendText("\n");
-        appendText(lineSeparator);
-        for (int i = 0; i < indentLevel; i++) {
-            appendText("\t");
-        }
+        return text.substring(text.lastIndexOf(prefix) + prefix.length()).replace(prefix, "");
     }
 
     class CircularList<E> extends ArrayList {
@@ -533,40 +365,6 @@ public class ConsoleTextAera extends CodeArea {
     }
 
     /**
-     * 实现循环数组
-     *
-     * @param command
-     */
-    public void ListListener(String command) {
-        this.command = command;
-        if (newCliList.size() + 1 > cliTextNum) {
-            newCliList.clear();
-        }
-        if (cmdList.size() >= cliTextNum) {
-            newCliList.add(command);
-            cmdList.remove(newCliList.lastIndexOf(command));
-            cmdList.add(newCliList.lastIndexOf(command), String.valueOf(newCliList.getLast()));
-        } else {
-            cmdList.add(command);
-        }
-        List<String> newCmdList = ListDuplicateRemoval(cmdList);
-        cmdList.clear();
-        cmdList.addAll(newCmdList);
-        if (isConsoleListenter) {
-            saveCommandText();
-        }
-    }
-
-    /**
-     * 写入公共的脚本文件中
-     */
-    private void saveCommandText() {
-        CircularList<String> cmdList = getCmdList();
-        String commandText = (String) cmdList.get(cmdList.size() - 1);
-        println(commandText);
-    }
-
-    /**
      * 打印彩色字体
      *
      * @param command
@@ -584,7 +382,7 @@ public class ConsoleTextAera extends CodeArea {
                         IndexRange selection = getSelection();
                         int startNum = selection.getEnd() - prefix.length() - 1 - fianlStr.length();
                         int stopNum = selection.getEnd() - prefix.length();
-                        setStyle(startNum, stopNum, Collections.singleton("-fx-fill: " + color));
+                        setStyle(startNum, stopNum, "-fx-fill: " + color);
                     }
                 });
     }
@@ -636,44 +434,12 @@ public class ConsoleTextAera extends CodeArea {
         this.KEY_PRESSENDNum = KEY_PRESSENDNum;
     }
 
-    public CircularList<String> getCmdList() {
-        return cmdList;
-    }
-
-    public void setCmdList(CircularList<String> cmdList) {
-        this.cmdList = cmdList;
-    }
-
-    public LinkedList<String> getNewCliList() {
-        return newCliList;
-    }
-
-    public void setNewCliList(LinkedList<String> newCliList) {
-        this.newCliList = newCliList;
-    }
-
-    public List<String> getFileCommandCileList() {
-        return fileCommandCileList;
-    }
-
-    public void setFileCommandCileList(List<String> fileCommandCileList) {
-        this.fileCommandCileList = fileCommandCileList;
-    }
-
     public boolean isConsoleListenter() {
         return isConsoleListenter;
     }
 
     public void setConsoleListenter(boolean consoleListenter) {
         isConsoleListenter = consoleListenter;
-    }
-
-    public String getParserName() {
-        return ParserName;
-    }
-
-    public void setParserName(String parserName) {
-        ParserName = parserName;
     }
 
     public boolean isSaveFile() {
@@ -706,21 +472,5 @@ public class ConsoleTextAera extends CodeArea {
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
-    }
-
-    public String getLineSeparator() {
-        return lineSeparator;
-    }
-
-    public void setLineSeparator(String lineSeparator) {
-        this.lineSeparator = lineSeparator;
-    }
-
-    public ShellInter getShellInter() {
-        return shellInter;
-    }
-
-    public void setShellInter(ShellInter shellInter) {
-        this.shellInter = shellInter;
     }
 }

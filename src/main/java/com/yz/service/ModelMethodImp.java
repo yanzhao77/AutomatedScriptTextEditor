@@ -1,6 +1,7 @@
 package com.yz.service;
 
 import com.yz.CliUtilTool.FileUtilTools;
+import com.yz.console.ViewFileValueTextAera;
 import com.yz.consoleInterFace.Imethod;
 import com.yz.controller.ViewController;
 import com.yz.coreFactroy.CoreFactroy;
@@ -17,6 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 方法类
+ */
 public class ModelMethodImp implements IModelMethod {
 
     CoreFactroy coreFactroy;
@@ -30,8 +34,10 @@ public class ModelMethodImp implements IModelMethod {
     }
 
     public Imethod getProxy(String... interceptors) {
-        Imethod proxy = (Imethod) ProxyFactory. getCglibProxy(this, coreFactroy);
-        Imethod proxy2 = (Imethod) ProxyFactory.getCglibProxy(this, coreFactroy, Interceptor.PARSE_INVOCATIONHANDLER);
+        Imethod proxy = (Imethod) ProxyFactory.getCglibProxy(this, coreFactroy);
+        Imethod proxy2 =
+                (Imethod)
+                        ProxyFactory.getCglibProxy(this, coreFactroy, Interceptor.PARSE_INVOCATIONHANDLER);
         return proxy;
     }
 
@@ -46,7 +52,15 @@ public class ModelMethodImp implements IModelMethod {
 
     public boolean openFile(String filePath) {
         List<String> strings = FileUtilTools.readFile(filePath);
-        strings.forEach(value -> coreFactroy.getController().getTextAera().println(value));
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return false;
+        }
+        ViewFileValueTextAera viewFileValueTextAera =
+                (ViewFileValueTextAera)
+                        coreFactroy.getController().initviewTabPaneForNewTab(file.getName());
+        strings.forEach(value -> viewFileValueTextAera.println(value)); // 显示文本内容
+        //        strings.forEach(value -> coreFactroy.getController().getTextAera().println(value));
         coreFactroy.getController().fileMap.put(filePath, strings);
         coreFactroy.getController().filePath = filePath;
         addMenuItem(filePath);
@@ -69,15 +83,18 @@ public class ModelMethodImp implements IModelMethod {
 
         MenuItem finalItem = item;
         if (item != null) {
-            item.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    String text = finalItem.getText();
-                    if (text != null && !text.equals("")) {
-                        openFile(text);
-                    }
-                }
-            });
+            item.setOnAction(
+                    new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            String text = finalItem.getText();
+                            if (text != null && !text.equals("")) {
+                                openFile(text);
+                            }
+                        }
+                    });
+            // 显示到导航栏
+            coreFactroy.getController().getTreeViewFactory().addFilePath(filePath);
         }
     }
 
@@ -86,9 +103,10 @@ public class ModelMethodImp implements IModelMethod {
             coreFactroy.getController().saveFilePath = path;
         }
         File file = FileUtilTools.creteFile(path);
-//        String text = coreFactroy.getController().getTextAera().getText();
-//        text = text.replaceAll(" >\0\0|...\0", "");
-        List<String> strings = coreFactroy.getController().fileMap.get(coreFactroy.getController().filePath);
+        //        String text = coreFactroy.getController().getTextAera().getText();
+        //        text = text.replaceAll(" >\0\0|...\0", "");
+        List<String> strings =
+                coreFactroy.getController().fileMap.get(coreFactroy.getController().filePath);
         StringBuilder sb = new StringBuilder();
         for (String string : strings) {
             sb.append(string + "\n");
@@ -98,7 +116,8 @@ public class ModelMethodImp implements IModelMethod {
 
     public void saveAs(String path) {
         File file = FileUtilTools.creteFile(path);
-        List<String> strings = coreFactroy.getController().fileMap.get(coreFactroy.getController().filePath);
+        List<String> strings =
+                coreFactroy.getController().fileMap.get(coreFactroy.getController().filePath);
         StringBuilder sb = new StringBuilder();
         for (String string : strings) {
             sb.append(string + "\n");
@@ -119,9 +138,7 @@ public class ModelMethodImp implements IModelMethod {
     }
 
     public void myHelloApp() {
-        String value = "" +
-                "离离原上草\n一岁一枯荣\n野火烧不尽\n春风吹又生"
-                + "\t\n";
+        String value = "" + "离离原上草\n一岁一枯荣\n野火烧不尽\n春风吹又生" + "\t\n";
         Alert alert = new Alert(Alert.AlertType.INFORMATION, value);
         alert.showAndWait();
     }

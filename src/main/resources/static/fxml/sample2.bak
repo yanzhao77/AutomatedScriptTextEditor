@@ -1,0 +1,63 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox fx:id="mainVbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="607.0"
+      prefWidth="911.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.yz.controller.ViewController">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="newMenuItem" mnemonicParsing="false" text="新建"/>
+                        <MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="打开文件"/>
+                        <Menu fx:id="open_RecentMenu" mnemonicParsing="false" text="最近文件"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem fx:id="clearMenuItem" mnemonicParsing="false" text="清空"/>
+                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="保存"/>
+                        <MenuItem fx:id="saveAsMenuItem" mnemonicParsing="false" text="另存为"/>
+                        <MenuItem fx:id="revertMenuItem" mnemonicParsing="false" text="刷新"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <!--                        <MenuItem fx:id="preferencesMenuItem" mnemonicParsing="false" text="Preferences…"/>-->
+                        <!--                        <SeparatorMenuItem mnemonicParsing="false"/>-->
+                        <Menu fx:id="ScriptMenuItem" mnemonicParsing="false" text="自动化脚本">
+                            <items>
+                                <MenuItem fx:id="scriptLoad" mnemonicParsing="false" text="脚本执行"/>
+                                <CheckMenuItem fx:id="writeScript" mnemonicParsing="false" text="录制脚本"/>
+                            </items>
+                        </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="退出"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo"/>
+                        <MenuItem mnemonicParsing="false" text="Redo"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Cut"/>
+                        <MenuItem mnemonicParsing="false" text="Copy"/>
+                        <MenuItem mnemonicParsing="false" text="Paste"/>
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem mnemonicParsing="false" text="Select All"/>
+                        <MenuItem mnemonicParsing="false" text="Unselect All"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem fx:id="myHelloAppMenuItem" mnemonicParsing="false" text="About MyHelloApp"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <AnchorPane fx:id="textAreaAnchorPane" layoutX="-7.0" prefHeight="607.0" prefWidth="911.0"
+                            style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+            </children>
+        </AnchorPane>
+
+    </children>
+</VBox>

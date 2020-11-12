@@ -1,4 +1,4 @@
-#import com.yz.service.IModelMethod as method
+import com.yz.service.IModelMethod as method
 
 
 def newView():

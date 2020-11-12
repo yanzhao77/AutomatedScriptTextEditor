@@ -21,9 +21,9 @@ public class ViewControl {
         windows.setCoreFactroy(coreFactroy);
         coreFactroy.setController(windows);
         windows.consoleInit();
+        windows.treeViewFactory = new TreeViewFactory(windows.filePathTreeView, coreFactroy);
         windows.fileMap = new HashMap<>();
     }
-
 
     public void CreateModules() {
         mainStage = new Stage();
@@ -31,7 +31,6 @@ public class ViewControl {
         mainStage.getIcons().add(image);
         String xml = "static/fxml/sample.fxml";
         windows = showWindows(xml, mainStage);
-
     }
 
     public ViewController showWindows(String fxmlPath, Stage stage) {
@@ -39,8 +38,8 @@ public class ViewControl {
         ViewController controller = loader.getController();
         double screenwindth = controller.getPrefWidth();
         double screenHeight = controller.getPrefHeight();
-//        int screenwindth = (Toolkit.getDefaultToolkit().getScreenSize().width) / 3 * 2;
-//        int screenHeight = (Toolkit.getDefaultToolkit().getScreenSize().height) / 3 * 2 + 30;
+        //        int screenwindth = (Toolkit.getDefaultToolkit().getScreenSize().width) / 3 * 2;
+        //        int screenHeight = (Toolkit.getDefaultToolkit().getScreenSize().height) / 3 * 2 + 30;
         Scene scene = new Scene(load, screenwindth, screenHeight);
         stage.setScene(scene);
         controller.setStage(stage);

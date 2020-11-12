@@ -1,63 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox fx:id="mainVbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="607.0"
-      prefWidth="911.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.yz.controller.ViewController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yz.controller.ViewController">
     <children>
-        <MenuBar VBox.vgrow="NEVER">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem fx:id="newMenuItem" mnemonicParsing="false" text="新建"/>
-                        <MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="打开文件"/>
-                        <Menu fx:id="open_RecentMenu" mnemonicParsing="false" text="最近文件"/>
-                        <SeparatorMenuItem mnemonicParsing="false"/>
-                        <MenuItem fx:id="clearMenuItem" mnemonicParsing="false" text="清空"/>
-                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="保存"/>
-                        <MenuItem fx:id="saveAsMenuItem" mnemonicParsing="false" text="另存为"/>
-                        <MenuItem fx:id="revertMenuItem" mnemonicParsing="false" text="刷新"/>
-                        <SeparatorMenuItem mnemonicParsing="false"/>
-                        <!--                        <MenuItem fx:id="preferencesMenuItem" mnemonicParsing="false" text="Preferences…"/>-->
-                        <!--                        <SeparatorMenuItem mnemonicParsing="false"/>-->
-                        <Menu fx:id="ScriptMenuItem" mnemonicParsing="false" text="自动化脚本">
+        <AnchorPane fx:id="topAnchorPane" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <children>
+                <MenuBar fx:id="fileMenuPane" prefHeight="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                         AnchorPane.topAnchor="0.0">
+                    <menus>
+                        <Menu fx:id="fileMenu" mnemonicParsing="false" text="文件">
                             <items>
-                                <MenuItem fx:id="scriptLoad" mnemonicParsing="false" text="脚本执行"/>
-                                <CheckMenuItem fx:id="writeScript" mnemonicParsing="false" text="录制脚本"/>
+                                <MenuItem fx:id="newMenuItem" mnemonicParsing="false" text="新建"/>
+                                <MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="打开文件"/>
+                                <Menu fx:id="open_RecentMenu" mnemonicParsing="false" text="最近文件"/>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
+                                <MenuItem fx:id="clearMenuItem" mnemonicParsing="false" text="清空"/>
+                                <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="保存"/>
+                                <MenuItem fx:id="saveAsMenuItem" mnemonicParsing="false" text="另存为"/>
+                                <MenuItem fx:id="revertMenuItem" mnemonicParsing="false" text="刷新"/>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
+                                <!--                        <MenuItem fx:id="preferencesMenuItem" mnemonicParsing="false" text="Preferences…"/>-->
+                                <!--                        <SeparatorMenuItem mnemonicParsing="false"/>-->
+                                <Menu fx:id="ScriptMenuItem" mnemonicParsing="false" text="自动化脚本">
+                                    <items>
+                                        <MenuItem fx:id="loadScriptMenuItem" mnemonicParsing="false" text="脚本执行"/>
+                                        <CheckMenuItem fx:id="writeScriptMenuItem" mnemonicParsing="false" text="录制脚本"/>
+                                    </items>
+                                </Menu>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
+                                <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="退出"/>
                             </items>
                         </Menu>
-                        <SeparatorMenuItem mnemonicParsing="false"/>
-                        <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="退出"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Undo"/>
-                        <MenuItem mnemonicParsing="false" text="Redo"/>
-                        <SeparatorMenuItem mnemonicParsing="false"/>
-                        <MenuItem mnemonicParsing="false" text="Cut"/>
-                        <MenuItem mnemonicParsing="false" text="Copy"/>
-                        <MenuItem mnemonicParsing="false" text="Paste"/>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
-                        <SeparatorMenuItem mnemonicParsing="false"/>
-                        <MenuItem mnemonicParsing="false" text="Select All"/>
-                        <MenuItem mnemonicParsing="false" text="Unselect All"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem fx:id="myHelloAppMenuItem" mnemonicParsing="false" text="About MyHelloApp"/>
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-            <children>
-                <AnchorPane fx:id="textAreaAnchorPane" layoutX="-7.0" prefHeight="607.0" prefWidth="911.0"
-                            style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                        <Menu fx:id="editMenu" mnemonicParsing="false" text="编辑">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Undo"/>
+                                <MenuItem mnemonicParsing="false" text="Redo"/>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
+                                <MenuItem mnemonicParsing="false" text="Cut"/>
+                                <MenuItem mnemonicParsing="false" text="Copy"/>
+                                <MenuItem mnemonicParsing="false" text="Paste"/>
+                                <MenuItem mnemonicParsing="false" text="Delete"/>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
+                                <MenuItem mnemonicParsing="false" text="Select All"/>
+                                <MenuItem mnemonicParsing="false" text="Unselect All"/>
+                            </items>
+                        </Menu>
+                        <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem fx:id="myHelloAppMenuItem" mnemonicParsing="false" text="About MyHelloApp"/>
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <FlowPane fx:id="toolsPane" layoutY="25.0" prefHeight="35.0" AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <children>
+                        <ToolBar fx:id="toolsBarPane" prefHeight="35.0">
+                            <items>
+                                <Button fx:id="openFile" mnemonicParsing="false" minHeight="24"
+                                        minWidth="24" prefWidth="24" prefHeight="24"
+                                        style="-fx-background-image: url('../../image/openFile_16px.png');
+                                        -fx-background-size: 16; -fx-background-position: center; -fx-background-repeat: no-repeat;"/>
+                                <Button fx:id="openProject" mnemonicParsing="false" minHeight="24"
+                                        minWidth="24" prefWidth="24" prefHeight="24"
+                                        style="-fx-background-image: url('../../image/openprojects_16px.png');
+                                        -fx-background-size: 16; -fx-background-position: center; -fx-background-repeat: no-repeat;"/>
+                                <!--                                <Button fx:id="save" mnemonicParsing="false" minHeight="24"-->
+                                <!--                                        minWidth="24" prefWidth="24" prefHeight="24"-->
+                                <!--                                        style="-fx-background-image: url('../../image/save_16px.png');-->
+                                <!--                                        -fx-background-size: 16; -fx-background-position: center; -fx-background-repeat: no-repeat"/>-->
+                                <!--                                />-->
+                                <!--                                <Button fx:id="saveAs" mnemonicParsing="false" minHeight="24"-->
+                                <!--                                        minWidth="24" prefWidth="24" prefHeight="24"-->
+                                <!--                                        style="-fx-background-image: url('../../image/save_as_16px.png');-->
+                                <!--                                        -fx-background-size: 16; -fx-background-position: center; -fx-background-repeat: no-repeat"/>-->
+                                <!--                                />-->
+                                <!--                                <Button fx:id="writeScript" mnemonicParsing="false" minHeight="24"-->
+                                <!--                                        minWidth="24" prefWidth="24" prefHeight="24"-->
+                                <!--                                        style="-fx-background-image: url('../../image/writefile_16px.png');-->
+                                <!--                                        -fx-background-size: 16; -fx-background-position: center; -fx-background-repeat: no-repeat"/>-->
+                                <!--                                />-->
+                                <!--                                <Button fx:id="loadScript" mnemonicParsing="false" minHeight="24"-->
+                                <!--                                        minWidth="24" prefWidth="24" prefHeight="24"-->
+                                <!--                                        style="-fx-background-image: url('../../image/loadScript_16px.png');-->
+                                <!--                                        -fx-background-size: 16; -fx-background-position: center; -fx-background-repeat: no-repeat"/>-->
+                                <!--                                />-->
+                            </items>
+                        </ToolBar>
+                    </children>
+                </FlowPane>
             </children>
         </AnchorPane>
+        <SplitPane fx:id="mainSplitPane" dividerPositions="0.1748790145182578" layoutY="60.0" prefHeight="520.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <items>
+                <AnchorPane fx:id="navigationMainAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0"
+                            prefWidth="100.0">
+                    <children>
+                        <TabPane fx:id="navigationTabMenuTabPane" layoutX="1.0" prefHeight="518.0" prefWidth="268.0"
+                                 tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <tabs>
+                                <Tab fx:id="navigationTab" text="导航栏"/>
+                                <Tab fx:id="navigationFileTab" text="文件栏">
+                                    <content>
+                                        <SplitPane fx:id="filenavigationFileAnchorPane"
+                                                   dividerPositions="0.8237704918032787" layoutY="14.0"
+                                                   orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                                            <items>
+                                                <AnchorPane fx:id="treeViewAnchorPane" minHeight="0.0" minWidth="0.0"
+                                                            prefHeight="100.0" prefWidth="160.0">
+                                                    <TreeView fx:id="filePathTreeView"
+                                                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                              AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                                                </AnchorPane>
+                                                <AnchorPane fx:id="treeConsoleAnchorPane" minHeight="0.0" minWidth="0.0"
+                                                            prefHeight="100.0" prefWidth="160.0"/>
+                                            </items>
+                                        </SplitPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="viewMainAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0"
+                            prefWidth="100.0">
+                    <children>
+                        <SplitPane fx:id="viewSplitPane" dividerPositions="0.8359193173002327" orientation="VERTICAL"
+                                   prefHeight="518.0" prefWidth="635.0" AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <items>
+                                <AnchorPane fx:id="viewAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0"
+                                            prefWidth="160.0">
+                                    <children>
+                                        <TabPane fx:id="viewTabPane" layoutX="1.0" prefHeight="518.0" prefWidth="268.0"
+                                                 tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                                                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                 AnchorPane.topAnchor="0.0"/>
+                                        <!--                                            <tabs>-->
+                                        <!--                                                <Tab fx:id="viewAnchorPaneTab" text="视图区">-->
+                                        <!--                                                    <content>-->
+                                        <!--                                                        <AnchorPane fx:id="viewShowAnchorPane">-->
+                                        <!--                                                            <children>-->
+                                        <!--                                                                <TextArea fx:id="viewTextArea"-->
+                                        <!--                                                                          AnchorPane.topAnchor="0.0"-->
+                                        <!--                                                                          AnchorPane.bottomAnchor="0.0"-->
+                                        <!--                                                                          AnchorPane.rightAnchor="0.0"-->
+                                        <!--                                                                          AnchorPane.leftAnchor="0.0"/>-->
+                                        <!--                                                                <Canvas fx:id="viewCanvas"/>-->
+                                        <!--                                                            </children>-->
+                                        <!--                                                        </AnchorPane>-->
+                                        <!--                                                    </content>-->
+                                        <!--                                                </Tab>-->
 
+                                        <!--                                            </tabs>-->
+                                        <!--                                        </TabPane>-->
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane fx:id="textAreaAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0"
+                                            prefWidth="160.0"/>
+                            </items>
+                        </SplitPane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+        <AnchorPane fx:id="bottmAncorPane" layoutY="582" prefHeight="20.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
     </children>
-</VBox>
+</AnchorPane>
