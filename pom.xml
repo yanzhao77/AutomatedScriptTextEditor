@@ -22,7 +22,7 @@
 
         <fx.version>17.0.2</fx.version>
         <richtextfx.version>0.10.9</richtextfx.version>
-        <netbeans.version>RELEASE130</netbeans.version>
+        <netbeans.version>RELEASE126</netbeans.version>
 
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <javax.activation-api.version>1.2.0</javax.activation-api.version>
