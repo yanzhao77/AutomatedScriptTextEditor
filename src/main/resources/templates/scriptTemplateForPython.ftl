@@ -9,6 +9,7 @@ def scriptFunction():
     ${command}
 </#list>
 
+println("script is ready")
 
 scriptFunction()
 

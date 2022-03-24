@@ -40,7 +40,7 @@ public class ShellInit {
         }
         if (shellInter instanceof JythonShellInter) {
             JythonShellInter jythonShellInter = (JythonShellInter) shellInter;
-            String path = CliUtilTools.class.getClassLoader().getResource("vieWCommand.py").getFile();
+            String path = CliUtilTools.class.getClassLoader().getResource("./static/script/vieWCommand.py").getFile();
             File file = new File(path);
             try {
                 jythonShellInter.execFile(file);

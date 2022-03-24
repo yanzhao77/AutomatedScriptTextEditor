@@ -39,7 +39,7 @@ public class JythonShellInter implements ShellInter {
         Properties properties = new Properties();
         properties.put("Python.console.encoding", "utf8");
 //        properties.put("python.home", System.getProperty("user.dir") + "/lib/jython-standalone-2.7.1.jar");
-        properties.put("python.security.respectJavaAccessibility", "false");
+//        properties.put("python.security.respectJavaAccessibility", "false");
         properties.put("python.import.site", "false");
         Properties properties1 = System.getProperties();
         PythonInterpreter.initialize(properties1, properties, new String[0]);

@@ -5,111 +5,130 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.6.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yz</groupId>
-    <artifactId>scriptDemo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>scriptDemo</name>
-    <description>Demo project for Spring Boot</description>
+    <artifactId>AutomatedScriptTextEditor</artifactId>
+    <version>0.0.1</version>
+    <name>AutomatedScriptTextEditor</name>
+    <description>AutomatedScript TextEditor</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
+
+        <fx.version>17.0.2</fx.version>
+        <richtextfx.version>0.10.7</richtextfx.version>
+        <netbeans.version>RELEASE125</netbeans.version>
+
+        <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
+        <javax.activation-api.version>1.2.0</javax.activation-api.version>
+        <cglib.version>3.3.0</cglib.version>
+
+        <groovy.version>3.0.8</groovy.version>
+        <jython.version>2.7.2</jython.version>
+
+        <luaj.version>3.0.1</luaj.version>
     </properties>
 
     <dependencies>
 
+        <!--界面动画-->
         <!-- https://mvnrepository.com/artifact/org.netbeans.api/org-netbeans-api-visual -->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-api-visual</artifactId>
-            <version>RELEASE113</version>
+            <version>${netbeans.version}</version>
         </dependency>
+
         <!--这是javafx的jar包-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11</version>
+            <version>${fx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>11</version>
+            <version>${fx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>11</version>
+            <version>${fx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>11</version>
+            <version>${fx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>11</version>
+            <version>${fx.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.fxmisc.richtext/richtextfx -->
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
-            <version>0.10.2</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>3.3.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>5.2.6.RELEASE</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.30</version>
+            <version>${richtextfx.version}</version>
         </dependency>
 
 
+        <!--解析器-->
         <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy -->
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>3.0.2</version>
+            <version>${groovy.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>javax.activation-api</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.python/jython-standalone -->
         <dependency>
             <groupId>org.python</groupId>
             <artifactId>jython-standalone</artifactId>
-            <version>2.7.2</version>
+            <version>${jython.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.luaj</groupId>
+            <artifactId>luaj-jse</artifactId>
+            <version>${luaj.version}</version>
         </dependency>
 
+        <!--javax-->
+        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>javax.activation-api</artifactId>
+            <version>${javax.activation-api.version}</version>
+        </dependency>
 
+        <!--aop代理-->
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-groovy-templates</artifactId>
