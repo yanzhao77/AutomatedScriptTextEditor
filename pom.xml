@@ -21,16 +21,15 @@
         <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
 
         <fx.version>17.0.2</fx.version>
-        <richtextfx.version>0.10.7</richtextfx.version>
-        <netbeans.version>RELEASE125</netbeans.version>
+        <richtextfx.version>0.10.9</richtextfx.version>
+        <netbeans.version>RELEASE130</netbeans.version>
 
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <javax.activation-api.version>1.2.0</javax.activation-api.version>
         <cglib.version>3.3.0</cglib.version>
 
-        <groovy.version>3.0.8</groovy.version>
+        <groovy.version>3.0.10</groovy.version>
         <jython.version>2.7.2</jython.version>
-
         <luaj.version>3.0.1</luaj.version>
     </properties>
 
@@ -79,12 +78,13 @@
 
 
         <!--解析器-->
-        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy -->
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy</artifactId>
+            <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
+            <type>pom</type>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.python/jython-standalone -->
         <dependency>
             <groupId>org.python</groupId>
@@ -123,6 +123,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin.external.google</groupId>
+            <artifactId>android-json</artifactId>
+            <version>0.0.20131108.vaadin1</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
         <dependency>
@@ -148,12 +154,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin.external.google</groupId>
-            <artifactId>android-json</artifactId>
-            <version>0.0.20131108.vaadin1</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
